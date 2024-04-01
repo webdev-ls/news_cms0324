@@ -17,11 +17,20 @@
                     <div class="col-md-offset-4 col-md-4">
                         <img class="logo" src="images/news.jpg">
                         <h3 class="heading">Admin</h3>
+                        <?php 
+                        if(isset($_GET['m']) && $_GET['m'] == "usernotfound"){
+                            echo "<h3 class=\"heading\">USER NOT FOUND</h3>";
+                        }else if(isset($_GET['m']) && $_GET['m'] == "wrongpassword"){
+                            echo "<h3 class=\"heading\">PASSWORD NOT MATCHED</h3>";
+                        }
+                        
+                        ?>
                         <!-- Form Start -->
-                        <form  action="" method ="POST">
+                        <!-- relative path () -->
+                        <form  action="server/loginScript.php" method ="POST">
                             <div class="form-group">
-                                <label>Username</label>
-                                <input type="text" name="username" class="form-control" placeholder="" required>
+                                <label>Email</label>
+                                <input type="text" name="email" class="form-control" placeholder="" required>
                             </div>
                             <div class="form-group">
                                 <label>Password</label>
