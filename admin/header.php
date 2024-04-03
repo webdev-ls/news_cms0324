@@ -5,13 +5,27 @@ $accessMap = [
     "admin" => [],
     "user" => [
         "admin/post.php",
-        "admin/users.php",
+        "admin/post.php?edit",
+        "admin/post.php?update",
+        // "admin/post.php?delete",
+        // "admin/users.php",
     ]
 ];
+// echo $_SERVER['REQUEST_URI']; exit;
+$string = trim($_SERVER['REQUEST_URI'],"/");
+// echo substr($string,0,strpos($string,"="));
+// echo "<br>";
+// echo "<pre>";
+// print_r();
+// echo "<br>";
+// echo "<br>";
+// echo "<br>";
 
-// print_r($accessMap[$_SESSION['role']]); trim($_SERVER['REQUEST_URI'],"/"); exit;
-if(!isset($_SESSION['uid']) || !in_array(trim($_SERVER['REQUEST_URI'],"/"),$accessMap[$_SESSION['role']])){
+// print_r($accessMap[$_SESSION['role']]); echo explode("=", $string)[0]; exit;
+if(!isset($_SESSION['uid'])){
     header('Location: ./index.php');
+}else if(!in_array(explode("=", $string)[0],$accessMap[$_SESSION['role']])){
+    echo "Access Denied"; exit;
 }
 
 
