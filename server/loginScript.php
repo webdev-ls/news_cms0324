@@ -1,31 +1,5 @@
 <?php
-
-// 3 methods
-
-// 1. MYSQLI
-define("DB_HOST","localhost");
-define("DB_USER","root");
-define("DB_NAME","news_cms");
-define("DB_PASS","root");
-
-
-// echo DB_HOST;
-
-$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-if(mysqli_connect_error()){
-    die("Connect ERROR". mysqli_connect_error());
-}
-
-echo "Connected";
-
-echo "<pre>";
-// var_dump(mysqli_connect_error());
-
-// // print_r(($conn)); 
-
-
-
+require_once "./dbConnection.php";
 print_r($_REQUEST);
 
 $email = $_REQUEST['email'];
@@ -42,6 +16,11 @@ if(mysqli_num_rows($query) > 0){
     print_r(($data));
 
     if($data['password'] === $password){
+        session_start();
+        $_SESSION['uid'] = $data['uid'];
+        $_SESSION['email'] = $data['email'];
+        $_SESSION['mobile'] = $data['mobile'];
+        $_SESSION['role'] = $data['role'];
         // echo "dsvsdfb "; exit;
         header('Location: ../admin/post.php');
         exit;

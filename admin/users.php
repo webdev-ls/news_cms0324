@@ -1,4 +1,7 @@
 <?php include "header.php"; ?>
+<?php //if($_SESSION['role'] == "user"){
+    //header("Location: post.php");
+//} ?>
   <div id="admin-content">
       <div class="container">
           <div class="row">
