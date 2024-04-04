@@ -2,13 +2,44 @@
 session_start();
 
 $accessMap = [
-    "admin" => [],
+    "admin" => [
+        "admin/post.php",
+        "admin/post.php?edit",
+        "admin/post.php?update",
+        "admin/users.php",
+        "admin/add-user.php"
+    ],
     "user" => [
         "admin/post.php",
         "admin/post.php?edit",
         "admin/post.php?update",
         // "admin/post.php?delete",
         // "admin/users.php",
+    ]
+];
+$accessMap2 = [
+    "admin" => [],
+    "user" => [
+        "pages" => [
+
+        ],
+        "forms" => [
+            "25" => [
+                "edit", "update", "delete"
+            ], 34, 56
+        ]
+    ]
+];
+$accessMap3 = [
+    "admin" => [],
+    "user" => [
+        "pages" => [
+
+        ],
+        "forms" => [
+            "edit" => [1, 4, 7 , 78],
+            "view" => [4 ,66, 66,6]
+        ]
     ]
 ];
 // echo $_SERVER['REQUEST_URI']; exit;

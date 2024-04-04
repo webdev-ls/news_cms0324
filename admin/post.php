@@ -16,8 +16,22 @@
                           <th>Category</th>
                           <th>Date</th>
                           <th>Author</th>
-                          <th>Edit</th>
-                          <th>Delete</th>
+                          <?php 
+                        //   echo $string."?delete<br>";
+
+                        //   print_r(explode("?", $string."?delete")); exit;
+
+                        //   echo explode("=", $string."?edit")[0]."    ";
+                        //  exit;
+                          if(in_array(explode("?", $string)[0]."?edit",$accessMap[$_SESSION['role']])){
+                            echo "<th>Edit</th>";
+                          }
+                          ?>
+                           <?php 
+                          if(in_array(explode("?", $string)[0]."?delete",$accessMap[$_SESSION['role']])){
+                            echo "<th>Delete</th>";
+                          }
+                          ?>
                       </thead>
                       <tbody>
                           <tr>
