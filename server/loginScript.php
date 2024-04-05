@@ -1,19 +1,19 @@
 <?php
 require_once "./dbConnection.php";
-print_r($_REQUEST);
+// print_r($_REQUEST);
 
 $email = $_REQUEST['email'];
 $password = $_REQUEST['password'];
 
 $sql = "SELECT * FROM users WHERE email = '$email'";
 
-echo $sql;
+// echo $sql;
 
 $query = mysqli_query($conn, $sql);
 
 if(mysqli_num_rows($query) > 0){
     $data = mysqli_fetch_assoc($query);
-    print_r(($data));
+    // print_r(($data));
 
     if($data['password'] === $password){
         session_start();
@@ -21,7 +21,6 @@ if(mysqli_num_rows($query) > 0){
         $_SESSION['email'] = $data['email'];
         $_SESSION['mobile'] = $data['mobile'];
         $_SESSION['role'] = $data['role'];
-        // echo "dsvsdfb "; exit;
         header('Location: ../admin/post.php');
         exit;
     }else{

@@ -1,7 +1,19 @@
 <?php include "header.php"; ?>
-<?php //if($_SESSION['role'] == "user"){
-    //header("Location: post.php");
-//} ?>
+<?php 
+
+require_once "../server/functions.php";
+
+$result = getUsers();
+
+$user = $result->fetch_assoc() ?? [];
+// while($row=$result->fetch_assoc()){ 
+    // echo "<pre>";
+    // print_r($user);
+    // echo "</pre>";
+// }
+
+
+?>
   <div id="admin-content">
       <div class="container">
           <div class="row">
@@ -14,46 +26,30 @@
               <div class="col-md-12">
                   <table class="content-table">
                       <thead>
-                          <th>S.No.</th>
-                          <th>Full Name</th>
-                          <th>User Name</th>
-                          <th>Role</th>
+                        <?php foreach($user as $key => $value){ ?>
+                            <th><?=$key?></th>
+                        <?php } ?>
                           <th>Edit</th>
                           <th>Delete</th>
                       </thead>
                       <tbody>
-                          <tr>
-                              <td class='id'>1</td>
-                              <td>Ram Sharma</td>
-                              <td>ram</td>
-                              <td>admin</td>
-                              <td class='edit'><a href='update-user.php'><i class='fa fa-edit'></i></a></td>
-                              <td class='delete'><a href='delete-user.php'><i class='fa fa-trash-o'></i></a></td>
-                          </tr>
-                          <tr>
-                              <td class='id'>2</td>
-                              <td>Shyam Kumar</td>
-                              <td>shyam</td>
-                              <td>normal</td>
-                              <td class='edit'><a href='update-user.php'><i class='fa fa-edit'></i></a></td>
-                              <td class='delete'><a href='delete-user.php'><i class='fa fa-trash-o'></i></a></td>
-                          </tr>
-                          <tr>
-                              <td class='id'>3</td>
-                              <td>Ramesh Kumar</td>
-                              <td>ramesh</td>
-                              <td>admin</td>
-                              <td class='edit'><a href='update-user.php'><i class='fa fa-edit'></i></a></td>
-                              <td class='delete'><a href='delete-user.php'><i class='fa fa-trash-o'></i></a></td>
-                          </tr>
-                          <tr>
-                              <td class='id'>4</td>
-                              <td>Satish Sharma</td>
-                              <td>satish</td>
-                              <td>admin</td>
-                              <td class='edit'><a href='update-user.php'><i class='fa fa-edit'></i></a></td>
-                              <td class='delete'><a href='delete-user.php'><i class='fa fa-trash-o'></i></a></td>
-                          </tr>
+                            <tr>
+                                <?php foreach($user as $key => $value){ ?>
+                                    <td><?=$value?></td>
+                                <?php } ?>
+                                <td class='edit'><a href='update-user.php'><i class='fa fa-edit'></i></a></td>
+                                <td class='delete'><a href='delete-user.php'><i class='fa fa-trash-o'></i></a></td>
+                            </tr>
+                        <?php 
+                        while($row=$result->fetch_assoc()){ ?>
+                            <tr>
+                                <?php foreach($row as $key => $value){ ?>
+                                    <td><?=$value?></td>
+                                <?php } ?>
+                                <td class='edit'><a href='update-user.php'><i class='fa fa-edit'></i></a></td>
+                                <td class='delete'><a href='delete-user.php'><i class='fa fa-trash-o'></i></a></td>
+                            </tr>
+                        <?php } ?>
                       </tbody>
                   </table>
                   <ul class='pagination admin-pagination'>

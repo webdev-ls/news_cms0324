@@ -1,8 +1,8 @@
 <?php 
- echo "<pre>";
+//  echo "<pre>";
 //  print_r($_POST);
 
- echo htmlspecialchars($_POST['name']);
+//  echo htmlspecialchars($_POST['name']);
 
  require_once "./dbConnection.php";
 $name = mysqli_real_escape_string($conn, $_POST['name']);
@@ -14,6 +14,8 @@ $role = mysqli_real_escape_string($conn, $_POST['role']);
 
 //  echo $sql;
  $query = mysqli_query($conn, $sql);
+
+ echo mysqli_error($conn);
  if(mysqli_affected_rows($conn) > 0){
     echo "user inserted";
  }
