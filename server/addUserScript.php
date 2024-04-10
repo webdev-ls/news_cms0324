@@ -19,5 +19,5 @@ $role = mysqli_real_escape_string($conn, $_POST['role']);
  if(mysqli_affected_rows($conn) > 0){
     echo "user inserted";
  }
-
+header("Location: ../admin/users.php");
  ?>

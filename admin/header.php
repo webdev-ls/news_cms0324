@@ -7,6 +7,7 @@ $accessMap = [
         "admin/post.php?edit",
         "admin/post.php?update",
         "admin/users.php",
+        "admin/users.php?page",
         "admin/add-user.php"
     ],
     "user" => [

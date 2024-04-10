@@ -2,8 +2,10 @@
 <?php 
 
 require_once "../server/functions.php";
-
-$result = getUsers();
+$currentPage = $_GET['page'];
+$perPage = 10;
+$result = getUsers($perPage,($currentPage -1) * $perPage);
+$totalUsers = getTotalUsersCount();
 
 $user = $result->fetch_assoc() ?? [];
 // while($row=$result->fetch_assoc()){ 
@@ -53,12 +55,15 @@ $user = $result->fetch_assoc() ?? [];
                       </tbody>
                   </table>
                   <ul class='pagination admin-pagination'>
-                      <li class="active"><a>1</a></li>
-                      <li><a>2</a></li>
-                      <li><a>3</a></li>
+                    <?php  
+                    $totalPages = $totalUsers/$perPage + ($totalUsers%$perPage === 0 ? 0 : 1);
+                    for($i = 1; $i <= $totalPages; $i++){ ?>
+                        <li class="<?=$currentPage == $i ? "active" : ""?>"><a href="?page=<?=$i?>"><?=$i?></a></li>
+                    <?php }
+                    ?>
                   </ul>
               </div>
           </div>
       </div>
   </div>
-<?php include "header.php"; ?>
+<?php include "footer.php"; ?>
