@@ -2,7 +2,7 @@
 <?php 
 
 require_once "../server/functions.php";
-$currentPage = $_GET['page'];
+$currentPage = $_GET['page'] ?? 1;
 $perPage = 10;
 $result = getUsers($perPage,($currentPage -1) * $perPage);
 $totalUsers = getTotalUsersCount();
@@ -31,16 +31,47 @@ $user = $result->fetch_assoc() ?? [];
                         <?php foreach($user as $key => $value){ ?>
                             <th><?=$key?></th>
                         <?php } ?>
-                          <th>Edit</th>
-                          <th>Delete</th>
+                        <?php 
+                        $currentPageUrl = trim($_SERVER['REQUEST_URI'],"/");
+                        // echo "<pre>";
+                        // print_r(explode('?',$currentPageUrl)[0]."?edit"); exit;
+
+                        // echo ''.$currentPageUrl.'?edit';exit;
+                        // echo in_array(explode('?',$currentPageUrl)[0]."?edit",$accessMap[$_SESSION['role']]); exit;
+                        // echo $currentPageUrl.'?edit';
+                        // print_r($accessMap[$_SESSION['role']]);
+
+                        if(in_array(explode('?',$currentPageUrl)[0]."?edit",$accessMap[$_SESSION['role']])){
+                            echo "<th>Edit</th>";
+                        }
+                        if(in_array(explode('?',$currentPageUrl)[0]."?delete",$accessMap[$_SESSION['role']])){
+                            echo "<th>Delete</th>";
+                        }
+
+                        // echo "<pre>";
+                        // $filter = array_filter($accessMap['admin'],function($value) use ($currentPageUrl){
+                        //     return $value == explode('?',$currentPageUrl)[0]."?edittttttt";
+                        // });
+
+                        // print_r($filter);
+                        // exit;
+                        ?>
                       </thead>
                       <tbody>
                             <tr>
                                 <?php foreach($user as $key => $value){ ?>
                                     <td><?=$value?></td>
                                 <?php } ?>
-                                <td class='edit'><a href='update-user.php'><i class='fa fa-edit'></i></a></td>
-                                <td class='delete'><a href='delete-user.php'><i class='fa fa-trash-o'></i></a></td>
+                                <?php 
+                                if(in_array(explode('?',$currentPageUrl)[0]."?edit",$accessMap[$_SESSION['role']])){
+                                    echo "<td class='edit'><a href='update-user.php'><i class='fa fa-edit'></i></a></td>";
+                                }
+                                if(in_array(explode('?',$currentPageUrl)[0]."?delete",$accessMap[$_SESSION['role']])){
+                                    echo "<td class='delete'><a href='delete-user.php'><i class='fa fa-trash-o'></i></a></td>";
+                                }
+                                ?>
+                                
+                                
                             </tr>
                         <?php 
                         while($row=$result->fetch_assoc()){ ?>
@@ -48,8 +79,16 @@ $user = $result->fetch_assoc() ?? [];
                                 <?php foreach($row as $key => $value){ ?>
                                     <td><?=$value?></td>
                                 <?php } ?>
-                                <td class='edit'><a href='update-user.php'><i class='fa fa-edit'></i></a></td>
-                                <td class='delete'><a href='delete-user.php'><i class='fa fa-trash-o'></i></a></td>
+                                <?php 
+                                 if(in_array(explode('?',$currentPageUrl)[0]."?edit",$accessMap[$_SESSION['role']])){
+                                    echo "<td class='edit'><a href='update-user.php'><i class='fa fa-edit'></i></a></td>";
+                                }
+                                if(in_array(explode('?',$currentPageUrl)[0]."?delete",$accessMap[$_SESSION['role']])){
+                                    echo "<td class='delete'><a href='delete-user.php'><i class='fa fa-trash-o'></i></a></td>";
+                                }
+                                 
+                                 
+                                 ?>
                             </tr>
                         <?php } ?>
                       </tbody>
