@@ -1,4 +1,24 @@
 <?php include "header.php"; ?>
+<?php 
+
+require_once "../server/functions.php";
+$result = getUser($_GET['id']);
+
+$user = $result->fetch_assoc() ?? [];
+// while($row=$result->fetch_assoc()){ 
+//     echo "<pre>";
+//     print_r($row);
+//     echo "</pre>";
+// }
+
+// foreach ($user as $key => $value) {
+//     echo $key."   ".$value."<br>"; 
+// }
+
+// exit;
+
+
+?>
   <div id="admin-content">
       <div class="container">
           <div class="row">
@@ -7,29 +27,38 @@
               </div>
               <div class="col-md-offset-4 col-md-4">
                   <!-- Form Start -->
-                  <form  action="" method ="POST">
+                  <form  action="../server/updateUserScript.php" method ="POST">
                       <div class="form-group">
-                          <input type="hidden" name="user_id"  class="form-control" value="1" placeholder="" >
-                      </div>
-                          <div class="form-group">
-                          <label>First Name</label>
-                          <input type="text" name="f_name" class="form-control" value="Ram" placeholder="" required>
+                          <input type="hidden" name="uid"  class="form-control" value="<?=$user['uid']?>" placeholder="" >
+                    </div>
+                    <?php 
+                    foreach ($user as $key => $value) { ?>
+                        <div class="form-group">
+                            <label><?=$key?></label>
+                            <input type="text" name="<?=$key?>" class="form-control" value="<?=$value?>" placeholder="" required>
+                        </div>
+                        
+                   <?php  } 
+                    ?>
+                      <!-- <div class="form-group">
+                          <label>Mobile</label>
+                          <input type="text" name="mobile" class="form-control" value="<?=$user['mobile']?>" placeholder="" required>
                       </div>
                       <div class="form-group">
-                          <label>Last Name</label>
-                          <input type="text" name="l_name" class="form-control" value="Sharma" placeholder="" required>
+                          <label>Email</label>
+                          <input type="text" name="email" class="form-control" value="<?=$user['email']?>" placeholder="" required>
                       </div>
                       <div class="form-group">
-                          <label>User Name</label>
-                          <input type="text" name="username" class="form-control" value="ram" placeholder="" required>
+                          <label>Password</label>
+                          <input type="text" name="password" class="form-control" value="<?=$user['password']?>" placeholder="" required>
                       </div>
                       <div class="form-group">
                           <label>User Role</label>
                           <select class="form-control" name="role" value="<?php echo $row['role']; ?>">
-                              <option value="0">normal User</option>
-                              <option value="1">Admin</option>
+                              <option <?=$user['role'] == "user" ? "selected" : ""?> value="user">normal User</option>
+                              <option <?=$user['role'] == "admin" ? "selected" : ""?>  value="admin">Admin</option>
                           </select>
-                      </div>
+                      </div> -->
                       <input type="submit" name="submit" class="btn btn-primary" value="Update" required />
                   </form>
                   <!-- /Form -->

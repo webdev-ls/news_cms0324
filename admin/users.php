@@ -64,7 +64,7 @@ $user = $result->fetch_assoc() ?? [];
                                 <?php } ?>
                                 <?php 
                                 if(in_array(explode('?',$currentPageUrl)[0]."?edit",$accessMap[$_SESSION['role']])){
-                                    echo "<td class='edit'><a href='update-user.php'><i class='fa fa-edit'></i></a></td>";
+                                    echo "<td class='edit'><a href='update-user.php?id={$user['uid']}'><i class='fa fa-edit'></i></a></td>";
                                 }
                                 if(in_array(explode('?',$currentPageUrl)[0]."?delete",$accessMap[$_SESSION['role']])){
                                     echo "<td class='delete'><a href='delete-user.php'><i class='fa fa-trash-o'></i></a></td>";
@@ -81,10 +81,10 @@ $user = $result->fetch_assoc() ?? [];
                                 <?php } ?>
                                 <?php 
                                  if(in_array(explode('?',$currentPageUrl)[0]."?edit",$accessMap[$_SESSION['role']])){
-                                    echo "<td class='edit'><a href='update-user.php'><i class='fa fa-edit'></i></a></td>";
+                                    echo "<td class='edit'><a href='update-user.php?id={$row['uid']}'><i class='fa fa-edit'></i></a></td>";
                                 }
                                 if(in_array(explode('?',$currentPageUrl)[0]."?delete",$accessMap[$_SESSION['role']])){
-                                    echo "<td class='delete'><a href='delete-user.php'><i class='fa fa-trash-o'></i></a></td>";
+                                    echo "<td class='delete'><a href='../server/deleteUserScript.php?id={$row['uid']}'><i class='fa fa-trash-o'></i></a></td>";
                                 }
                                  
                                  

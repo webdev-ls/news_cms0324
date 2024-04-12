@@ -1,7 +1,7 @@
 <?php 
 session_start();
 if(isset($_SESSION['uid'])){
-    header('Location: post.php');
+    header('Location: ./post.php');
     // header('Location: ../admin/post.php');
     // header('Location: http://localhost:3003/admin/post.php');
 }

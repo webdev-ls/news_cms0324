@@ -1,26 +1,7 @@
 <?php 
 session_start();
-
-$accessMap = [
-    "admin" => [
-        "admin/post.php",
-        "admin/post.php?edit",
-        "admin/post.php?update",
-        "admin/users.php",
-        "admin/users.php?edit",
-        "admin/users.php?delete",
-        "admin/users.php?page",
-        "admin/update-user.php",
-        "admin/add-user.php"
-    ],
-    "user" => [
-        "admin/post.php",
-        "admin/post.php?edit",
-        "admin/post.php?update",
-        // "admin/post.php?delete",
-        // "admin/users.php",
-    ]
-];
+require_once "../server/functions.php";
+$accessMap = getScope();
 $accessMap2 = [
     "admin" => [],
     "user" => [
