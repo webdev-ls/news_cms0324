@@ -1,74 +1,112 @@
 <?php include "header.php"; ?>
-<div id="admin-content">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10">
-                <h1 class="admin-heading">All Categories</h1>
-            </div>
-            <div class="col-md-2">
-                <a class="add-new" href="add-category.php">add category</a>
-            </div>
-            <div class="col-md-12">
-                <table class="content-table">
-                    <thead>
-                        <th>S.No.</th>
-                        <th>Category Name</th>
-                        <th>No. of Posts</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class='id'>1</td>
-                            <td>Html</td>
-                            <td>5</td>
-                            <td class='edit'><a href='update-category.php'><i class='fa fa-edit'></i></a></td>
-                            <td class='delete'><a href='delete-category.php'><i class='fa fa-trash-o'></i></a></td>
-                        </tr>
-                        <tr>
-                            <td class='id'>2</td>
-                            <td>Css</td>
-                            <td>15</td>
-                            <td class='edit'><a href='update-category.php'><i class='fa fa-edit'></i></a></td>
-                            <td class='delete'><a href='delete-category.php'><i class='fa fa-trash-o'></i></a></td>
-                        </tr>
-                        <tr>
-                            <td class='id'>3</td>
-                            <td>Java</td>
-                            <td>8</td>
-                            <td class='edit'><a href='update-category.php'><i class='fa fa-edit'></i></a></td>
-                            <td class='delete'><a href='delete-category.php'><i class='fa fa-trash-o'></i></a></td>
-                        </tr>
-                        <tr>
-                            <td class='id'>4</td>
-                            <td>Php</td>
-                            <td>11</td>
-                            <td class='edit'><a href='update-category.php'><i class='fa fa-edit'></i></a></td>
-                            <td class='delete'><a href='delete-category.php'><i class='fa fa-trash-o'></i></a></td>
-                        </tr>
-                        <tr>
-                            <td class='id'>5</td>
-                            <td>Python</td>
-                            <td>13</td>
-                            <td class='edit'><a href='update-category.php'><i class='fa fa-edit'></i></a></td>
-                            <td class='delete'><a href='delete-category.php'><i class='fa fa-trash-o'></i></a></td>
-                        </tr>
-                        <tr>
-                            <td class='id'>6</td>
-                            <td>Scss</td>
-                            <td>3</td>
-                            <td class='edit'><a href='update-category.php'><i class='fa fa-edit'></i></a></td>
-                            <td class='delete'><a href='delete-category.php'><i class='fa fa-trash-o'></i></a></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <ul class='pagination admin-pagination'>
-                    <li class="active"><a>1</a></li>
-                    <li><a>2</a></li>
-                    <li><a>3</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
+<?php 
+
+require_once "../server/functions.php";
+$currentPage = $_GET['page'] ?? 1;
+$perPage = 10;
+$result = getCategories($perPage,($currentPage -1) * $perPage);
+$totalUsers = getCategoriesCount();
+
+$user = $result->fetch_assoc() ?? [];
+// while($row=$result->fetch_assoc()){ 
+    // echo "<pre>";
+    // print_r($user);
+    // echo "</pre>";
+// }
+
+
+?>
+  <div id="admin-content">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-10">
+                  <h1 class="admin-heading">All Categories</h1>
+              </div>
+              <div class="col-md-2">
+                  <a class="add-new" href="add-user.php">add user</a>
+              </div>
+              <div class="col-md-12">
+                  <table class="content-table">
+                      <thead>
+                        <?php foreach($user as $key => $value){ ?>
+                            <th><?=$key?></th>
+                        <?php } ?>
+                        <?php 
+                        $currentPageUrl = trim($_SERVER['REQUEST_URI'],"/");
+                        // echo "<pre>";
+                        // print_r(explode('?',$currentPageUrl)[0]."?edit"); exit;
+
+                        // echo ''.$currentPageUrl.'?edit';exit;
+                        // echo in_array(explode('?',$currentPageUrl)[0]."?edit",$accessMap[$_SESSION['role']]); exit;
+                        // echo $currentPageUrl.'?edit';
+                        // print_r($accessMap[$_SESSION['role']]);
+
+                        if(in_array(explode('?',$currentPageUrl)[0]."?edit",$accessMap[$_SESSION['role']])){
+                            echo "<th>Edit</th>";
+                        }
+                        if(in_array(explode('?',$currentPageUrl)[0]."?delete",$accessMap[$_SESSION['role']])){
+                            echo "<th>Delete</th>";
+                        }
+
+                        // echo "<pre>";
+                        // $filter = array_filter($accessMap['admin'],function($value) use ($currentPageUrl){
+                        //     return $value == explode('?',$currentPageUrl)[0]."?edittttttt";
+                        // });
+
+                        // print_r($filter);
+                        // exit;
+                        ?>
+                      </thead>
+                      <tbody>
+                            <tr>
+                                <?php foreach($user as $key => $value){ ?>
+                                    <td><?=$value?></td>
+                                <?php } ?>
+                                <?php 
+                                if(in_array(explode('?',$currentPageUrl)[0]."?edit",$accessMap[$_SESSION['role']])){
+                                    $key = array_key_first($user);
+                                    echo "<td class='edit'><a href='update-category.php?id={$user[$key]}'><i class='fa fa-edit'></i></a></td>";
+                                }
+                                if(in_array(explode('?',$currentPageUrl)[0]."?delete",$accessMap[$_SESSION['role']])){
+                                    $key = array_key_first($user);
+                                    echo "<td class='delete'><a href='../server/deleteUserScript.php?id={$user[$key]}'><i class='fa fa-trash-o'></i></a></td>";
+                                }
+                                ?>
+                                
+                                
+                            </tr>
+                        <?php 
+                        while($row=$result->fetch_assoc()){ ?>
+                            <tr>
+                                <?php foreach($row as $key => $value){ ?>
+                                    <td><?=$value?></td>
+                                <?php } ?>
+                                <?php 
+                                 if(in_array(explode('?',$currentPageUrl)[0]."?edit",$accessMap[$_SESSION['role']])){
+                                    $key = array_key_first($user);
+                                    echo "<td class='edit'><a href='update-category.php?id={$row[$key]}'><i class='fa fa-edit'></i></a></td>";
+                                }
+                                if(in_array(explode('?',$currentPageUrl)[0]."?delete",$accessMap[$_SESSION['role']])){
+                                    $key = array_key_first($user);
+                                    echo "<td class='delete'><a href='../server/deleteUserScript.php?id={$row[$key]}'><i class='fa fa-trash-o'></i></a></td>";
+                                }
+                                 
+                                 
+                                 ?>
+                            </tr>
+                        <?php } ?>
+                      </tbody>
+                  </table>
+                  <ul class='pagination admin-pagination'>
+                    <?php  
+                    $totalPages = $totalUsers/$perPage + ($totalUsers%$perPage === 0 ? 0 : 1);
+                    for($i = 1; $i <= $totalPages; $i++){ ?>
+                        <li class="<?=$currentPage == $i ? "active" : ""?>"><a href="?page=<?=$i?>"><?=$i?></a></li>
+                    <?php }
+                    ?>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
 <?php include "footer.php"; ?>
