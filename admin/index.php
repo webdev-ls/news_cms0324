@@ -37,7 +37,7 @@ if(isset($_SESSION['uid'])){
                         ?>
                         <!-- Form Start -->
                         <!-- relative path () -->
-                        <form  action="../server/loginScript.php" method ="POST">
+                        <form  action="../server/loginScript.php" onsubmit="submitForm(event)" method ="POST">
                             <div class="form-group">
                                 <label>Email</label>
                                 <input type="text" name="email" class="form-control" placeholder="" required>
@@ -53,5 +53,20 @@ if(isset($_SESSION['uid'])){
                 </div>
             </div>
         </div>
+        <script>
+            function submitForm(e){
+                e.preventDefault();
+                fetch("http://localhost:3003/server/loginScriptApi.php",{
+                    method : "POST",
+                    body : JSON.stringify({
+                        email : e.target.email.value,
+                        password : e.target.password.value,
+                    })
+                }).then(response => response.text()).then(data=>{
+                    console.log(data)
+                })
+            }
+        </script>
     </body>
 </html>
+

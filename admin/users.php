@@ -8,11 +8,38 @@ $result = getUsers($perPage,($currentPage -1) * $perPage);
 $totalUsers = getTotalUsersCount();
 
 $user = $result->fetch_assoc() ?? [];
-// while($row=$result->fetch_assoc()){ 
+$users =  [];
+while($row=$result->fetch_assoc()){ 
     // echo "<pre>";
-    // print_r($user);
+    // print_r($row);
+    $row['access'] = $row['uid'] > 35 ?  true : false;
+    array_push($users, $row);
     // echo "</pre>";
-// }
+}
+echo "<pre>";
+print_r($users);
+// arsort($user,SORT_FLAG_CASE | SORT_STRING);
+// print_r($user);
+// array_push($users, $row);
+// echo "</pre>";
+usort($users, function($a, $b) {
+    // print_r($a);
+    // echo "<br>";
+    // print_r($b);
+    // echo "<br>";
+    // echo "==+====================";
+    // // print_r($users);
+    // echo "<br>";
+    return $a['access'] != true;
+});
+echo "==+====================";
+echo "==+====================";
+echo "==+====================";
+echo "==+====================";
+echo "==+====================";
+echo "==+====================";
+print_r($users);
+exit;
 
 
 ?>

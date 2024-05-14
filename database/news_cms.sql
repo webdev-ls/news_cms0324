@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 10, 2024 at 06:46 AM
+-- Generation Time: May 14, 2024 at 05:52 AM
 -- Server version: 8.3.0
 -- PHP Version: 7.4.33
 
@@ -20,6 +20,46 @@ SET time_zone = "+00:00";
 --
 -- Database: `news_cms`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `abc` (IN `startIndex` INT, IN `recordLimit` INT)   IF(startIndex >= 0 AND recordLimit > 0) THEN
+    SELECT stock_reg.itemcode, stock_reg.location, stock_reg.lotno, stock_reg.barcode, stock_reg.ShadeNo, stock_reg.minlevl, stock_reg.maxlevl, Sum(stock_reg.stkqty) AS QOH
+    FROM stock_reg
+    GROUP BY stock_reg.itemcode, stock_reg.location, stock_reg.lotno, stock_reg.barcode, stock_reg.ShadeNo, stock_reg.minlevl, stock_reg.maxlevl
+    HAVING (((Sum(stock_reg.stkqty))<>0))
+    ORDER BY stock_reg.itemcode
+    LIMIT startIndex, recordLimit;
+  ELSE
+    SELECT stock_reg.itemcode, stock_reg.location, stock_reg.lotno, stock_reg.barcode, stock_reg.ShadeNo, stock_reg.minlevl, stock_reg.maxlevl, Sum(stock_reg.stkqty) AS QOH
+    FROM stock_reg
+    GROUP BY stock_reg.itemcode, stock_reg.location, stock_reg.lotno, stock_reg.barcode, stock_reg.ShadeNo, stock_reg.minlevl, stock_reg.maxlevl
+    HAVING (((Sum(stock_reg.stkqty))<>0))
+    ORDER BY stock_reg.itemcode;
+  END IF$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `category_id` int NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `posts_count` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`category_id`, `name`, `posts_count`) VALUES
+(1, 'JAVA', 1);
 
 -- --------------------------------------------------------
 
@@ -58,34 +98,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`uid`, `name`, `mobile`, `email`, `password`, `role`) VALUES
-(1, 'Cheeku', '9988776655', 'testuser@gmail.com', '12345678', 'admin'),
-(5, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(6, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(7, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(8, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(9, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(10, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(11, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(12, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(13, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(14, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(15, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(16, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(17, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(18, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(19, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(20, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(21, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(22, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(23, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(24, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(25, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(26, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(27, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(28, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(29, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(30, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(31, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
+(30, 'Vikas Sir', '123', 'testuser@gmail.com', '12345678', 'user'),
 (32, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
 (33, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
 (34, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
@@ -168,11 +181,24 @@ INSERT INTO `users` (`uid`, `name`, `mobile`, `email`, `password`, `role`) VALUE
 (111, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
 (112, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
 (113, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
-(114, 'test', '123', 'testuser@gmail.com', '12345678', 'user');
+(114, 'test', '123', 'testuser@gmail.com', '12345678', 'user'),
+(115, '', '', '', '', ''),
+(116, '', '', '', '', ''),
+(117, '', '', '', '', ''),
+(118, '', '', '', '', ''),
+(119, 'lorem', '', '', '', ''),
+(120, 'lorem', '', '', '', ''),
+(121, 'lorem', '', '', '', '');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`category_id`);
 
 --
 -- Indexes for table `posts`
@@ -191,6 +217,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `category_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
@@ -200,7 +232,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `uid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `uid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
